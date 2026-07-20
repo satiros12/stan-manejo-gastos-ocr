@@ -1,0 +1,242 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0a0a0f;
+  --card-bg: #14141f;
+  --text: #e8e8f0;
+  --text-dim: #8888a0;
+  --accent: #0f8a5f;
+  --border: #2a2a3a;
+  --focus: 0 0 0 4px var(--accent), 0 0 20px rgba(15, 138, 95, 0.3);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ─── Header ──────────────────────────────────────────────────── */
+header {
+  padding: 2rem 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.controls-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.controls-hint .sep {
+  color: var(--border);
+}
+
+/* ─── Grid ─────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.2rem;
+  padding: 1.5rem 2rem;
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Tile ─────────────────────────────────────────────────────── */
+.tile {
+  position: relative;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 1.2rem;
+  padding: 1.8rem 1.2rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 160px;
+  outline: none;
+}
+
+.tile .icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.tile .name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.tile .desc {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* Focused tile (gamepad navigation) */
+.tile.focused {
+  border-color: var(--accent);
+  box-shadow: var(--focus);
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+.tile.focused .icon {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Pressed tile */
+.tile.pressed {
+  transform: scale(0.95);
+}
+
+/* ─── Status overlay ───────────────────────────────────────────── */
+.status {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 1.5rem 3rem;
+  border-radius: 1rem;
+  border: 1px solid var(--accent);
+  font-size: 1.2rem;
+  z-index: 100;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+.status.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── No connection overlay ────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.overlay-content {
+  text-align: center;
+}
+
+.overlay-content .icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+}
+
+.overlay-content h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.overlay-content p {
+  color: var(--text-dim);
+  font-size: 1.1rem;
+}
+
+.controller-animation {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.controller-animation .dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+.controller-animation .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.controller-animation .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* ─── Animations ───────────────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-15px); }
+}
+
+/* ─── Scroll indicator ─────────────────────────────────────────── */
+.scroll-indicator {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 999px;
+}
+
+.scroll-indicator .bar {
+  width: 20px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background 0.3s;
+}
+
+.scroll-indicator .bar.active {
+  background: var(--accent);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  header h1 { font-size: 1.3rem; }
+  .controls-hint { font-size: 0.65rem; flex-wrap: wrap; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.8rem; padding: 1rem; }
+  .tile { min-height: 120px; padding: 1rem; }
+  .tile .icon { font-size: 2.2rem; }
+  .tile .name { font-size: 0.9rem; }
+}
