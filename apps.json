@@ -1,11 +1,83 @@
 [
-  { "id":"netflix",  "name":"Netflix",   "icon":"🎬", "color":"#E50914", "type":"url",  "url":"https://netflix.com",        "desc":"Series y películas" },
-  { "id":"hbo",      "name":"HBO Max",   "icon":"🟣", "color":"#5822B4", "type":"url",  "url":"https://hbomax.com",         "desc":"Series y películas" },
-  { "id":"disney",   "name":"Disney+",   "icon":"✨", "color":"#113CCF", "type":"url",  "url":"https://disneyplus.com",     "desc":"Series y películas" },
-  { "id":"prime",    "name":"Prime Video","icon":"🎥", "color":"#00A8E1", "type":"url",  "url":"https://primevideo.com",     "desc":"Series y películas" },
-  { "id":"youtube",  "name":"YouTube",   "icon":"▶️", "color":"#FF0000", "type":"url",  "url":"https://youtube.com",        "desc":"Videos" },
-  { "id":"twitch",   "name":"Twitch",    "icon":"📺", "color":"#9146FF", "type":"url",  "url":"https://twitch.tv",          "desc":"Streaming en vivo" },
-  { "id":"spotify",  "name":"Spotify",   "icon":"🎵", "color":"#1DB954", "type":"url",  "url":"https://open.spotify.com",   "desc":"Música" },
-  { "id":"plex",     "name":"Plex",      "icon":"📀", "color":"#E5A00D", "type":"url",  "url":"http://localhost:32400/web", "desc":"Biblioteca media" },
-  { "id":"steam",    "name":"Steam",     "icon":"🎮", "color":"#1b2838", "type":"app",  "url":"steam://open/games",        "desc":"Juegos", "isProtocol":true }
+  {
+    "id": "netflix",
+    "name": "Netflix",
+    "icon": "🎬",
+    "color": "#E50914",
+    "type": "url",
+    "url": "https://netflix.com",
+    "desc": "Series y películas"
+  },
+  {
+    "id": "hbo",
+    "name": "HBO Max",
+    "icon": "🟣",
+    "color": "#5822B4",
+    "type": "url",
+    "url": "https://hbomax.com",
+    "desc": "Series y películas"
+  },
+  {
+    "id": "disney",
+    "name": "Disney+",
+    "icon": "✨",
+    "color": "#113CCF",
+    "type": "url",
+    "url": "https://disneyplus.com",
+    "desc": "Series y películas"
+  },
+  {
+    "id": "prime",
+    "name": "Prime Video",
+    "icon": "🎥",
+    "color": "#00A8E1",
+    "type": "url",
+    "url": "https://primevideo.com",
+    "desc": "Series y películas"
+  },
+  {
+    "id": "youtube",
+    "name": "YouTube",
+    "icon": "▶️",
+    "color": "#FF0000",
+    "type": "url",
+    "url": "https://youtube.com",
+    "desc": "Videos"
+  },
+  {
+    "id": "twitch",
+    "name": "Twitch",
+    "icon": "📺",
+    "color": "#9146FF",
+    "type": "url",
+    "url": "https://twitch.tv",
+    "desc": "Streaming en vivo"
+  },
+  {
+    "id": "spotify",
+    "name": "Spotify",
+    "icon": "🎵",
+    "color": "#1DB954",
+    "type": "url",
+    "url": "https://open.spotify.com",
+    "desc": "Música"
+  },
+  {
+    "id": "steam",
+    "name": "Steam",
+    "icon": "🎮",
+    "color": "#1b2838",
+    "type": "app",
+    "url": "steam://open/games",
+    "desc": "Juegos"
+  },
+  {
+    "id": "plex",
+    "name": "Plex",
+    "icon": "📀",
+    "color": "#E5A00D",
+    "type": "url",
+    "url": "http://localhost:32400/web",
+    "desc": "Biblioteca multimedia"
+  }
 ]
