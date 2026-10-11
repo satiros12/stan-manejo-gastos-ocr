@@ -5,11 +5,6 @@ import { useEffect, useState } from "react";
 
 export default function SettingsPage() {
   const { data: session, update } = useSession();
-  const [groups, setGroups] = useState<any[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<any>(null);
-  const [members, setMembers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [copied, setCopied] = useState(false);
 
   // Profile form
   const [name, setName] = useState("");
@@ -23,22 +18,7 @@ export default function SettingsPage() {
   const [savingPass, setSavingPass] = useState(false);
   const [passMsg, setPassMsg] = useState("");
 
-  const load = async () => {
-    const res = await fetch("/api/groups?_action=my-groups");
-    const data = await res.json();
-    setGroups(data.groups || []);
-
-    if (data.defaultGroup) {
-      const detailRes = await fetch(`/api/groups?_action=group-detail&id=${data.defaultGroup.id}`);
-      const detail = await detailRes.json();
-      setSelectedGroup(detail.group);
-      setMembers(detail.members || []);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
-    load();
     if (session?.user?.name) setName(session.user.name);
   }, [session]);
 
@@ -82,39 +62,18 @@ export default function SettingsPage() {
     setSavingPass(false);
   };
 
-  const handleRegenerate = async () => {
-    if (!selectedGroup) return;
-    const res = await fetch(`/api/groups?_action=regenerate-invite&id=${selectedGroup.id}`, { method: "POST" });
-    const data = await res.json();
-    if (data.invite_code) {
-      setSelectedGroup({ ...selectedGroup, invite_code: data.invite_code });
-    }
-  };
-
-  const copyInvite = () => {
-    if (!selectedGroup?.invite_code) return;
-    const link = `${window.location.origin}/invite/${selectedGroup.invite_code}`;
-    navigator.clipboard.writeText(link).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
-
-  const handleShare = async () => {
-    if (!selectedGroup?.invite_code) return;
-    const link = `${window.location.origin}/invite/${selectedGroup.invite_code}`;
-    if (navigator.share) {
-      try { await navigator.share({ title: "Invitación al grupo", text: "Únete a mi grupo de gestión económica", url: link }); } catch {}
-    } else {
-      copyInvite();
-    }
-  };
-
-  if (loading) return <div className="text-center py-12 text-[var(--color-text-muted)]">Cargando…</div>;
-
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">⚙️ Configuración</h1>
+      <h1 className="text-2xl font-bold mb-6">⚙️ Ajustes</h1>
+
+      {/* Dos cuentas */}
+      <div className="rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] p-5 mb-6">
+        <h2 className="font-semibold mb-2">👫 Dos cuentas</h2>
+        <p className="text-sm text-[var(--color-text-muted)]">
+          Esta app es para dos personas: tú y tu pareja, cada una con su propia cuenta. El registro
+          se cierra automáticamente al crear la segunda cuenta.
+        </p>
+      </div>
 
       {/* ─── Profile ─────────────────────────────────────────────── */}
       <div className="rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] p-5 mb-6">
@@ -158,69 +117,6 @@ export default function SettingsPage() {
           {passMsg && <p className={`text-xs mt-1 ${passMsg.includes("actualizada") ? "text-[var(--color-accent)]" : "text-red-400"}`}>{passMsg}</p>}
         </form>
       </div>
-
-      {/* ─── Group ───────────────────────────────────────────────── */}
-      {selectedGroup && (
-        <>
-          <div className="rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] p-5 mb-6">
-            <h2 className="font-semibold mb-3">🏠 {selectedGroup.name}</h2>
-
-            <div className="space-y-4">
-              <div>
-                <label className="text-xs text-[var(--color-text-muted)] block mb-1.5">Enlace de invitación</label>
-                <div className="flex gap-2">
-                  <input readOnly
-                    value={`${typeof window !== "undefined" ? window.location.origin : ""}/invite/${selectedGroup.invite_code}`}
-                    className="flex-1 p-2 rounded-lg bg-[var(--color-bg-input)] border border-[var(--color-border)] text-xs font-mono"
-                    onClick={(e) => (e.target as HTMLInputElement).select()} />
-                  <button onClick={copyInvite}
-                    className="px-3 py-2 rounded-lg text-xs font-medium text-white"
-                    style={{ background: copied ? "var(--color-accent)" : "#6366f1" }}>
-                    {copied ? "✅" : "📋"}
-                  </button>
-                  <button onClick={handleShare}
-                    className="px-3 py-2 rounded-lg text-xs font-medium text-white"
-                    style={{ background: "#0f8a5f" }}>
-                    📤
-                  </button>
-                </div>
-                <p className="text-xs text-[var(--color-text-muted)] mt-1">
-                  Comparte este enlace para invitar a más miembros al grupo
-                </p>
-              </div>
-
-              <div className="flex gap-2 flex-wrap">
-                <button onClick={handleRegenerate}
-                  className="px-3 py-2 rounded-lg text-xs border border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-white transition-colors">
-                  🔄 Regenerar código
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Members */}
-          <div className="rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] p-5 mb-6">
-            <h2 className="font-semibold mb-3">👥 Miembros ({members.length})</h2>
-            <div className="space-y-2">
-              {members.map(m => (
-                <div key={m.id} className="flex items-center gap-3 py-2 border-b border-[var(--color-border)]/50 last:border-0">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium"
-                    style={{ background: m.user_color || "#6b7280" }}>
-                    {m.user_name?.[0]?.toUpperCase() || "?"}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">{m.user_name}</p>
-                    <p className="text-xs text-[var(--color-text-muted)]">{m.user_email}</p>
-                  </div>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${m.role === "admin" ? "text-[var(--color-accent)] bg-[var(--color-accent)]/10" : "text-[var(--color-text-muted)] bg-white/5"}`}>
-                    {m.role === "admin" ? "Admin" : "Miembro"}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 }

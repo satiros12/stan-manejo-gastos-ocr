@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { href: "/app/transactions", label: "Gastos", icon: "💳" },
   { href: "/app/categories", label: "Categorías", icon: "🏷️" },
   { href: "/app/ocr", label: "OCR Factura", icon: "📄" },
-  { href: "/app/settings", label: "Grupo", icon: "🏠" },
+  { href: "/app/settings", label: "Ajustes", icon: "⚙️" },
   { href: "/app/balance", label: "Balance", icon: "⚖️" },
 ];
 

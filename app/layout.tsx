@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OCR Facturas",
-  description: "Extrae datos de facturas y tickets con OCR + IA",
+  title: "Gestión en Pareja",
+  description: "Control de gastos en pareja: compartidos y privados, con OCR de facturas",
 };
 
 export default function RootLayout({
